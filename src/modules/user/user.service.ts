@@ -13,7 +13,7 @@ export class UserService {
 		private readonly _userRepository: Repository<User>,
 	){}
 
-	async get(id:number) :Promise<User>{
+	async get(id:number) : Promise<User>{
 		if(!id){
 			throw new BadRequestException("id must be sent")
 		}
@@ -29,7 +29,7 @@ export class UserService {
 		return user
 	}
 
-	async getAll() :Promise<User[]>{
+	async getAll() : Promise<User[]>{
 		const users : User[] = await this._userRepository.find({
 			where: {status : 'ACTIVE'},
 		})
@@ -37,12 +37,12 @@ export class UserService {
 		return users
 	}
 
-	async create(user: User): Promise<User>{
+	async create(user: User) : Promise<User>{
 		const details = new UserDetails();
 		user.details = details
 
 		//const repo = await getConnection().getRepository(Role)
-		const repo = appDataSource.getRepository(Role);
+		const repo = await appDataSource.getRepository(Role);
 		const defaultRole = await repo.findOne({where: {name:"GENERAL"}})
 		user.roles = [defaultRole]
 		
@@ -51,7 +51,7 @@ export class UserService {
 		return savedUser
 	}
 
-	async update(id:number, user:User): Promise<void> {
+	async update(id:number, user:User) : Promise<void> {
 		await this._userRepository.update(id, user)
 	}
 
