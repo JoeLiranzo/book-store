@@ -12,8 +12,8 @@ import { IJwtPayload } from './jwt-payload.interface';
 @Injectable()
 export class AuthService {
 	constructor(
-		@InjectRepository(AuthRepository)
-		private readonly _authRepository : AuthRepository,
+		// @InjectRepository(AuthRepository)
+		// private readonly _authRepository : AuthRepository,
 		@InjectRepository(User)
 		private readonly _userRepository: Repository<User>,
 		private readonly _jwtService : JwtService,
@@ -29,7 +29,7 @@ export class AuthService {
 			throw new ConflictException('username or email alraedy exists');	
 		}
 
-		return this._authRepository.signup(singupDto)
+		return AuthRepository.signup(singupDto)
 	}
 
 	async signin(signinDto : SignInDto) : Promise<{token:string}>{
